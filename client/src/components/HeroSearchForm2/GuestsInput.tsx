@@ -34,9 +34,7 @@ const GuestsInput: FC<GuestsInputProps> = ({
   const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(
     defaultValue.guestChildren || 0
   );
-  const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(
-    defaultValue.guestInfants || 0
-  );
+
   //
 
   useEffect(() => {
@@ -46,14 +44,13 @@ const GuestsInput: FC<GuestsInputProps> = ({
   useEffect(() => {
     setGuestAdultsInputValue(defaultValue.guestAdults || 0);
     setGuestChildrenInputValue(defaultValue.guestChildren || 0);
-    setGuestInfantsInputValue(defaultValue.guestInfants || 0);
   }, [defaultValue]);
 
   const handleChangeData = (value: number, type: keyof GuestsObject) => {
     let newValue = {
       guestAdults: guestAdultsInputValue,
       guestChildren: guestChildrenInputValue,
-      guestInfants: guestInfantsInputValue,
+  
     };
     if (type === "guestAdults") {
       setGuestAdultsInputValue(value);
@@ -63,15 +60,12 @@ const GuestsInput: FC<GuestsInputProps> = ({
       setGuestChildrenInputValue(value);
       newValue.guestChildren = value;
     }
-    if (type === "guestInfants") {
-      setGuestInfantsInputValue(value);
-      newValue.guestInfants = value;
-    }
+  
     onChange && onChange(newValue);
   };
 
   const totalGuests =
-    guestChildrenInputValue + guestAdultsInputValue + guestInfantsInputValue;
+    guestChildrenInputValue + guestAdultsInputValue;
 
   return (
     <div className={`flex relative ${className}`} ref={refContainer}>
@@ -101,7 +95,7 @@ const GuestsInput: FC<GuestsInputProps> = ({
               onClick={() => {
                 setGuestAdultsInputValue(0);
                 setGuestChildrenInputValue(0);
-                setGuestInfantsInputValue(0);
+              
               }}
             />
           )}
@@ -130,14 +124,6 @@ const GuestsInput: FC<GuestsInputProps> = ({
             desc="Ages 2–12"
           />
 
-          <NcInputNumber
-            className="w-full mt-6"
-            defaultValue={guestInfantsInputValue}
-            onChange={(value) => handleChangeData(value, "guestInfants")}
-            max={4}
-            label="Infants"
-            desc="Ages 0–2"
-          />
         </div>
       )}
     </div>

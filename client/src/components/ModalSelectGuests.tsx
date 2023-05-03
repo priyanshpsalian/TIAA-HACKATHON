@@ -92,7 +92,7 @@ const ModalSelectGuests: FC<ModalSelectGuestsProps> = ({
                           onChangeGuests({
                             guestAdults: 0,
                             guestChildren: 0,
-                            guestInfants: 0,
+                            
                           });
                         }}
                       >

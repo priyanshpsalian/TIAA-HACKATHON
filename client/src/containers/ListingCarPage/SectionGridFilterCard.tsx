@@ -22,7 +22,7 @@ const SectionGridFilterCard: FC<SectionGridFilterCardProps> = ({
       className={`nc-SectionGridFilterCard ${className}`}
       data-nc-id="SectionGridFilterCard"
     >
-      <Heading2
+      {/* <Heading2
         heading="Cars in Tokyo"
         subHeading={
           <span className="block text-neutral-500 dark:text-neutral-400 mt-3">
@@ -31,11 +31,11 @@ const SectionGridFilterCard: FC<SectionGridFilterCardProps> = ({
             Aug 12 - 18
           </span>
         }
-      />
+      /> */}
 
-      <div className="mb-8 lg:mb-11">
+      {/* <div className="mb-8 lg:mb-11">
         <TabFilters />
-      </div>
+      </div> */}
       <div className="grid grid-cols-1 gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {data.map((car) => (
           <CarCard key={car.id} data={car} />

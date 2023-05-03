@@ -24,177 +24,211 @@ import FormItem from "./FormItem";
 import { MapPinIcon } from "@heroicons/react/24/solid";
 import LocationMarker from "components/AnyReactComponent/LocationMarker";
 import GoogleMapReact from "google-map-react";
+import axios from 'axios';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 export interface CheckOutPageProps {
   className?: string;
 }
 
+
 const CheckOutPage: FC<CheckOutPageProps> = ({ className = "" }) => {
-  const [rangeDates, setRangeDates] = useState<DateRage>({
-    startDate: moment().add(1, "day"),
-    endDate: moment().add(5, "days"),
-  });
-  const [guests, setGuests] = useState<GuestsObject>({
-    guestAdults: 2,
-    guestChildren: 1,
-    guestInfants: 1,
-  });
 
-  const renderSidebar = () => {
-    return (
-      <div className="w-full flex flex-col sm:rounded-2xl lg:border border-neutral-200 dark:border-neutral-700 space-y-6 sm:space-y-8 px-0 sm:p-6 xl:p-8">
-        <div className="flex flex-col sm:flex-row sm:items-center">
-          <div className="flex-shrink-0 w-full sm:w-40">
-            <div className=" aspect-w-4 aspect-h-3 sm:aspect-h-4 rounded-2xl overflow-hidden">
-              <NcImage src="https://images.pexels.com/photos/6373478/pexels-photo-6373478.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" />
-            </div>
-          </div>
-          <div className="py-5 sm:px-5 space-y-3">
-            <div>
-              <span className="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-1">
-                Hotel room in Tokyo, Jappan
-              </span>
-              <span className="text-base font-medium mt-1 block">
-                The Lounge & Bar
-              </span>
-            </div>
-            <span className="block  text-sm text-neutral-500 dark:text-neutral-400">
-              2 beds · 2 baths
-            </span>
-            <div className="w-10 border-b border-neutral-200  dark:border-neutral-700"></div>
-            <StartRating />
-          </div>
-        </div>
-        <div className="flex flex-col space-y-4">
-          <h3 className="text-2xl font-semibold">Price detail</h3>
-          <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>$19 x 3 day</span>
-            <span>$57</span>
-          </div>
-          <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>Service charge</span>
-            <span>$0</span>
-          </div>
 
-          <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
-          <div className="flex justify-between font-semibold">
-            <span>Total</span>
-            <span>$57</span>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  const [formData, setFormData] = React.useState(
+    {
+        street: "",
+        car_number: "",
+        contact: "",
+        city: "",
+        postal_code:"",
+        description: "",
+        price: "",
+        amenities: [],
+        time: "",
+        date:"",
+        guests:"",
+        pickup:"",
+        drop:"",
+    }
+)
 
-  const renderMain = () => {
-    return (
-      <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-8 px-0 sm:p-6 xl:p-8">
+function handleChange(event: React.ChangeEvent<any>) {
+  const {name, value, type, checked,files} = event.target
+  setFormData(prevFormData => {
+      return {
+          ...prevFormData,
+          [name]: type==="checkbox"?checked==true?[...formData.amenities,value]: formData.amenities.filter((item)=>item !==value)  :value
+      }
+  })
+}
+
+
+const handleSubmit = (e: React.ChangeEvent<any>) => {
+  e.preventDefault();
+  // axios.post('/api/form-submit-url', {formData,guests,rangeDates })
+  // .then((response) => {
+  //   console.log(response);
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  // });
+};
+
+
+
+
+
+
+  return (
+    <div className={`nc-CheckOutPage ${className}`} data-nc-id="CheckOutPage">
+      <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
+        <div className="w-full lg:w-3/5 xl:w-2/3 lg:pr-10 ">
+         
+          
+          <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-8 px-0 sm:p-6 xl:p-8">
         <h2 className="text-3xl lg:text-4xl font-semibold">Create Ride</h2>
         <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
         <div>
-          <div>
-            {/* <h3 className="text-2xl font-semibold">Your trip</h3> */}
-            <NcModal
-              renderTrigger={(openModal) => (
-                <span
-                  onClick={() => openModal()}
-                  className="block lg:hidden underline  mt-1 cursor-pointer"
-                >
-                  View booking details
-                </span>
-              )}
-              renderContent={renderSidebar}
-              modalTitle="Booking details"
-            />
-          </div>
-          <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700">
-            <ModalSelectDate
-              defaultValue={rangeDates}
-              onSelectDate={setRangeDates}
-              renderChildren={({ openModal }) => (
-                <button
-                  onClick={openModal}
-                  className="text-left flex-1 p-5 flex justify-between space-x-5 "
-                  type="button"
-                >
-                  <div className="flex flex-col">
-                    <span className="text-sm text-neutral-400">Date</span>
-                    <span className="mt-1.5 text-lg font-semibold">
-                      {converSelectedDateToString(rangeDates)}
-                    </span>
-                  </div>
-                  <PencilSquareIcon className="w-6 h-6 text-neutral-6000 dark:text-neutral-400" />
-                </button>
-              )}
-            />
 
-            <ModalSelectGuests
-              defaultValue={guests}
-              onChangeGuests={setGuests}
-              renderChildren={({ openModal }) => (
-                <button
-                  type="button"
-                  onClick={openModal}
-                  className="text-left flex-1 p-5 flex justify-between space-x-5"
-                >
-                  <div className="flex flex-col">
-                    <span className="text-sm text-neutral-400">Guests</span>
-                    <span className="mt-1.5 text-lg font-semibold">
-                      <span className="line-clamp-1">
-                        {`${
-                          (guests.guestAdults || 0) +
-                          (guests.guestChildren || 0)
-                        } Guests, ${guests.guestInfants || 0} Infants`}
-                      </span>
-                    </span>
-                  </div>
-                  <PencilSquareIcon className="w-6 h-6 text-neutral-6000 dark:text-neutral-400" />
-                </button>
-              )}
-            />
+          <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700">
+
+<div className="text-left flex-1 p-5 flex justify-between space-x-5 ">
+<div className="flex flex-col">
+<span className="text-sm text-neutral-400">Time</span>
+                    
+            <input type="time"
+            className="mt-1.5 text-lg font-semibold"
+                      placeholder=""
+                      onChange={handleChange}
+                      name="time"
+                      value={formData.time} />
+            </div>
+            </div>
+
+      <div className="text-left flex-1 p-5 flex justify-between space-x-5 ">
+<div className="flex flex-col">
+<span className="text-sm text-neutral-400">Date</span>
+                    
+            <input type="date"
+            className="mt-1.5 text-lg font-semibold"
+                      placeholder=""
+                      onChange={handleChange}
+                      name="date"
+                      value={formData.date} />
+            </div>
+            </div>
+
+            <div className="text-left flex-1 p-5 flex justify-between space-x-5 ">
+<div className="flex flex-col">
+<span className="text-sm text-neutral-400">Guests</span>
+                    
+            <input type="number"
+              min="1" max="8"
+            className="mt-1.5 text-lg font-semibold"
+                      placeholder=""
+                      onChange={handleChange}
+                      name="guests"
+                      value={formData.guests} />
+            </div>
+            </div>
+
           </div>
         </div>
 
-        <h2 className="text-2xl font-semibold">Starting location</h2>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
-        <div className="space-y-8">
-          <ButtonSecondary>
-            <MapPinIcon className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
-            <span className="ml-3">Use current location</span>
-          </ButtonSecondary>
+
+
+        <div className="mt-6 border border-neutral-200 dark:border-neutral-700 rounded-3xl flex flex-col sm:flex-row divide-y sm:divide-x sm:divide-y-0 divide-neutral-200 dark:divide-neutral-700">
+
+<div className="text-left flex-1 p-5 flex justify-between space-x-5 ">
+<div className="flex flex-col">
+<span className="text-sm text-neutral-400">Pick-up Location</span>
+                    
+            <input type="text"
+            className="mt-1.5 text-lg font-semibold"
+                      placeholder=""
+                      onChange={handleChange}
+                      name="pickup"
+                      value={formData.pickup} />
+            </div>
+            </div>
+
+
+
+            <div className="text-left flex-1 p-5 flex justify-between space-x-5 ">
+<div className="flex flex-col">
+<span className="text-sm text-neutral-400">Drop-down Location</span>
+                    
+            <input type="text"
+              min="1" max="8"
+            className="mt-1.5 text-lg font-semibold"
+                      placeholder=""
+                      onChange={handleChange}
+                      name="drop"
+                      value={formData.drop} />
+            </div>
+            </div>
+
+          </div>
+        
+
+        
+
+          <div className="space-y-8">
+          
           {/* ITEM */}
-          <FormItem label="Country/Region">
-            <Select>
-              <option value="Viet Nam">Viet Nam</option>
-              <option value="Thailand">Thailand</option>
-              <option value="France">France</option>
-              <option value="Singapore">Singapore</option>
-              <option value="Jappan">Jappan</option>
-              <option value="Korea">Korea</option>
-              <option value="...">...</option>
-            </Select>
+          <FormItem label="Car number">
+          <input type="text"
+                      placeholder="MH : .. LD : ...."
+                      onChange={handleChange}
+                      name="car_number"
+                      value={formData.car_number} />
           </FormItem>
-          <FormItem label="Street">
-            <Input placeholder="..." />
+
+          <FormItem label="Street (Personal Details)">
+          <input type="text"
+                      placeholder=".."
+                      onChange={handleChange}
+                      name="street"
+                      value={formData.street} />
           </FormItem>
-          <FormItem label="Room number (optional)">
-            <Input />
-          </FormItem>
+
+
+
+       
+
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-5">
-            <FormItem label="City">
-              <Input />
+            <FormItem label="City  (Personal Details)">
+            <input type="text"
+                      placeholder="Mumbai"
+                      onChange={handleChange}
+                      name="city"
+                      value={formData.city} />
             </FormItem>
-            <FormItem label="State">
-              <Input />
+
+            <FormItem label="Postal code  (Personal Details)">
+            <input type="text"
+                      placeholder="401..."
+                      onChange={handleChange}
+                      name="postal_code"
+                      value={formData.postal_code} />
             </FormItem>
-            <FormItem label="Postal code">
-              <Input />
+
+            <FormItem label="Contact">
+            
+            <input type="tel"
+                      placeholder=""
+                      onChange={handleChange}
+                      name="contact"
+                      value={formData.contact} />
+        
             </FormItem>
+          
           </div>
           <div>
-            <Label>Detailed address</Label>
-            <span className="block mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-              1110 Pennsylvania Avenue NW, Washington, DC 20230
-            </span>
+        
             <div className="mt-4">
               <div className="aspect-w-5 aspect-h-5 sm:aspect-h-3">
                 <div className="rounded-xl overflow-hidden">
@@ -217,13 +251,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = "" }) => {
           </div>
         </div>
 
-        <div>
-          <h2 className="text-2xl font-semibold">Amenities </h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
-            Many customers have searched for accommodation based on amenities
-            criteria
-          </span>
-        </div>
+   
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
         {/* FORM */}
         <div className="space-y-8">
@@ -233,210 +261,60 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = "" }) => {
               General amenities
             </label>
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              <Checkbox label="Wifi" name="Wifi" defaultChecked />
-              <Checkbox label="Internet" name="Internet" />
-              <Checkbox label="TV" name="TV" defaultChecked />
-              <Checkbox label="Air conditioning" name="Air conditioning" />
-              <Checkbox label="Fan" name="Fan" />
-              <Checkbox label="Private entrance" name="Private entrance" />
-              <Checkbox label="Dryer" name="Dryer" defaultChecked />
-              <Checkbox label="Heater" name="Heater" />
-              <Checkbox label="Washing machine" name="Washing machine" />
-              <Checkbox label="Detergent" name="Detergent" defaultChecked />
-              <Checkbox label="Clothes dryer" name="Clothes dryer" />
-              <Checkbox label="Baby cot" name="Baby cot" />
-              <Checkbox label="Desk" name="Desk " defaultChecked />
-              <Checkbox label="Fridge" name="Fridge" />
-              <Checkbox label="Dryer" name="Dryer" defaultChecked />
+            <label>
+        <input type="checkbox" value="women" name="amenities" onChange={handleChange} />
+        Women Only
+      </label>
+      <label>
+        <input type="checkbox" value="no_smoking" name="amenities" onChange={handleChange} />
+        No Smoking
+      </label>
+      <label>
+        <input type="checkbox" value="option3" name="amenities" onChange={handleChange} />
+        Option 3
+      </label>
             </div>
           </div>
         </div>
 
-        <div>
-          <h2 className="text-2xl font-semibold">Pictures of the place</h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
-            A few beautiful photos will help customers have more sympathy for
-            your property.
-          </span>
-        </div>
 
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
-        {/* FORM */}
-        <div className="space-y-8">
-          <div>
-            <span className="text-lg font-semibold">Cover image</span>
-            <div className="mt-5 ">
-              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-neutral-300 dark:border-neutral-6000 border-dashed rounded-md">
-                <div className="space-y-1 text-center">
-                  <svg
-                    className="mx-auto h-12 w-12 text-neutral-400"
-                    stroke="currentColor"
-                    fill="none"
-                    viewBox="0 0 48 48"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>
-                  </svg>
-                  <div className="flex text-sm text-neutral-6000 dark:text-neutral-300">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer  rounded-md font-medium text-primary-6000 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
-                    >
-                      <span>Upload a file</span>
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        className="sr-only"
-                      />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                    PNG, JPG, GIF up to 10MB
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h2 className="text-2xl font-semibold">Price your space</h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
-            The host's revenue is directly dependent on the setting of rates and
-            regulations on the number of guests, the number of nights, and the
-            cancellation policy.
-          </span>
-        </div>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
-        {/* FORM */}
+   
         <div className="space-y-8">
           {/* ITEM */}
-          <FormItem label="Currency">
-            <Select>
-              <option value="USD">USD</option>
-              <option value="VND">VND</option>
-              <option value="EURRO">EURRO</option>
-            </Select>
+          <FormItem label="Description">
+       
+            <input type="text"
+                      placeholder=""
+                      onChange={handleChange}
+                      name="description"
+                      value={formData.description} />
           </FormItem>
-          <FormItem label="Base price  (Monday -Thuday)">
+          <FormItem label="Base price">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span className="text-gray-500">$</span>
+                <span className="text-gray-500">Rs.</span>
               </div>
-              <Input className="!pl-8 !pr-10" placeholder="0.00" />
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <span className="text-gray-500">USD</span>
-              </div>
+              
+              <input className="!pl-8 !pr-10"
+              type="number"
+                      placeholder=""
+                      onChange={handleChange}
+                      name="price"
+                      value={formData.price} />
+           
             </div>
           </FormItem>
-          
+          <button style={{backgroundColor: 'blue', color: 'white', padding: '10px 20px', borderRadius: '5px', border: 'none', fontSize: '16px', cursor: 'pointer'}} onClick={handleSubmit}>
+      Submit
+    </button>
           
         </div>
 
-        {/* <div>
-          <h3 className="text-2xl font-semibold">Pay with</h3>
-          <div className="w-14 border-b border-neutral-200 dark:border-neutral-700 my-5"></div>
-
-          <div className="mt-6">
-            <Tab.Group>
-              <Tab.List className="flex my-5">
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-4 py-1.5 sm:px-6 sm:py-2.5 rounded-full focus:outline-none ${
-                        selected
-                          ? "bg-neutral-800 dark:bg-neutral-300 text-white dark:text-neutral-900"
-                          : "text-neutral-6000 dark:text-neutral-400"
-                      }`}
-                    >
-                      Paypal
-                    </button>
-                  )}
-                </Tab>
-                <Tab as={Fragment}>
-                  {({ selected }) => (
-                    <button
-                      className={`px-4 py-1.5 sm:px-6 sm:py-2.5  rounded-full flex items-center justify-center focus:outline-none  ${
-                        selected
-                          ? "bg-neutral-800 dark:bg-neutral-300 text-white dark:text-neutral-900"
-                          : " text-neutral-6000 dark:text-neutral-400"
-                      }`}
-                    >
-                      <span className="mr-2.5">Credit card</span>
-                      <img className="w-8" src={visaPng} alt="" />
-                      <img className="w-8" src={mastercardPng} alt="" />
-                    </button>
-                  )}
-                </Tab>
-              </Tab.List>
-
-              <Tab.Panels>
-                <Tab.Panel className="space-y-5">
-                  <div className="space-y-1">
-                    <Label>Card number </Label>
-                    <Input defaultValue="111 112 222 999" />
-                  </div>
-                  <div className="space-y-1">
-                    <Label>Card holder </Label>
-                    <Input defaultValue="JOHN DOE" />
-                  </div>
-                  <div className="flex space-x-5  ">
-                    <div className="flex-1 space-y-1">
-                      <Label>Expiration date </Label>
-                      <Input type="date" defaultValue="MM/YY" />
-                    </div>
-                    <div className="flex-1 space-y-1">
-                      <Label>CVC </Label>
-                      <Input />
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <Label>Messager for author </Label>
-                    <Textarea placeholder="..." />
-                    <span className="text-sm text-neutral-500 block">
-                      Write a few sentences about yourself.
-                    </span>
-                  </div>
-                </Tab.Panel>
-                <Tab.Panel className="space-y-5">
-                  <div className="space-y-1">
-                    <Label>Email </Label>
-                    <Input type="email" defaultValue="example@gmail.com" />
-                  </div>
-                  <div className="space-y-1">
-                    <Label>Password </Label>
-                    <Input type="password" defaultValue="***" />
-                  </div>
-                  <div className="space-y-1">
-                    <Label>Messager for author </Label>
-                    <Textarea placeholder="..." />
-                    <span className="text-sm text-neutral-500 block">
-                      Write a few sentences about yourself.
-                    </span>
-                  </div>
-                </Tab.Panel>
-              </Tab.Panels>
-            </Tab.Group>
-            <div className="pt-8">
-              <ButtonPrimary href={"/pay-done"}>Confirm and pay</ButtonPrimary>
-            </div>
-          </div>
-        </div> */}
+ 
       </div>
-    );
-  };
+    
 
-  return (
-    <div className={`nc-CheckOutPage ${className}`} data-nc-id="CheckOutPage">
-      <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
-        <div className="w-full lg:w-3/5 xl:w-2/3 lg:pr-10 ">{renderMain()}</div>
+          </div>
         {/* <div className="hidden lg:block flex-grow">{renderSidebar()}</div> */}
       </main>
     </div>
