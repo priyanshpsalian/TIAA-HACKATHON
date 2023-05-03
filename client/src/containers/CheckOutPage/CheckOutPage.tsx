@@ -25,7 +25,7 @@ import { MapPinIcon } from "@heroicons/react/24/solid";
 import LocationMarker from "components/AnyReactComponent/LocationMarker";
 import GoogleMapReact from "google-map-react";
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export interface CheckOutPageProps {
