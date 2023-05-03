@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 mongoose
-  .connect("mongodb://localhost:27017/pooling", {
+  // .connect("mongodb://localhost:27017/pooling", {
   // .connect("mongodb://localhost:27017/blog/?replicaSet=rs&authSource=authDB", {
-  // .connect(
-  //   "mongodb+srv://hemloworld:1234@cluster0.rcn3htc.mongodb.net/?retryWrites=true&w=majority",
-  //   {
+  .connect(
+    "mongodb+srv://hemloworld:1234@cluster0.rcn3htc.mongodb.net/?retryWrites=true&w=majority",
+    {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       // useCreateIndex: true,

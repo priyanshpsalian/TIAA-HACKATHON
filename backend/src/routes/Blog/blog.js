@@ -28,12 +28,13 @@ router.post("/addBlog", async (req, res) => {
       res.status(400).send("User Not Found");
     }
     // console.log("OO");
-    const makeblog = new blog_model({
-      title: req.body.title,
-      description: req.body.description,
-      image: req.body.image,
-      user: req.body.user,
-    });
+    const makeblog=new blog_model(req.body)
+    // const makeblog = new blog_model({
+    //   title: req.body.title,
+    //   description: req.body.description,
+    //   image: req.body.image,
+    //   user: req.body.user,
+    // });
 
     // session.startTransaction();
     await makeblog.save();
@@ -47,21 +48,21 @@ router.post("/addBlog", async (req, res) => {
     res.send("error");
   }
 });
-router.put("/updateBlog/:id", async (req, res) => {
-  try {
-    // console.log("K");
-    let blogId = req.params.id;
-    const { title, description } = req.body;
-    // console.log("L");
-    const update = await blog_model.findByIdAndUpdate(blogId, {
-      title,
-      description,
-    });
-    res.status(201).send(update);
-  } catch (e) {
-    console.log(e);
-  }
-});
+// router.put("/updateBlog/:id", async (req, res) => {
+//   try {
+//     // console.log("K");
+//     let blogId = req.params.id;
+//     const { title, description } = req.body;
+//     // console.log("L");
+//     const update = await blog_model.findByIdAndUpdate(blogId, {
+//       title,
+//       description,
+//     });
+//     res.status(201).send(update);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// });
 router.get("/getBlogById/:id", async (req, res) => {
   try {
     // console.log("K");
@@ -125,4 +126,51 @@ router.delete("/deleteBlogById/:id", async (req, res) => {
     console.log(e);
   }
 });
+router.put("/updateBlog/:id", async (req, res) => {
+  try {
+    // console.log("K");
+    let blogId = req.params.id;
+    // const { title, description } = req.body;
+    // console.log("L");
+    const update = await blog_model.findByIdAndUpdate(blogId,req.body);
+    res.status(201).send(update);
+  } catch (e) {
+    console.log(e);
+  }
+});
+router.get("/updateBlogGuestList/:id/:gid", async (req, res) => {
+  try {
+    // console.log("K");
+    let blogId = req.params.id;
+    let guestId = req.params.gid;
+    // const { title, description } = req.body;
+    // console.log("L");
+    // const update = await blog_model.findByIdAndUpdate(blogId, req.body);
+    blogfound = await blog_model.findById(blogId);
+
+    blogfound.guest_list.push(guestId);
+    await blogfound.save();
+    res.status(201).send(blogfound);
+  } catch (e) {
+    console.log(e);
+  }
+});
+router.get("/removeGuestfromList/:id/:gid", async (req, res) => {
+  try {
+    // console.log("K");
+    let blogId = req.params.id;
+    let guestId = req.params.gid;
+    // const { title, description } = req.body;
+    // console.log("L");
+    // const update = await blog_model.findByIdAndUpdate(blogId, req.body);
+    blogfound = await blog_model.findById(blogId);
+
+    blogfound.guest_list.pop(guestId);
+    await blogfound.save();
+    res.status(201).send(blogfound);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 module.exports = router;

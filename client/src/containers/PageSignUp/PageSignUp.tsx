@@ -216,7 +216,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = "" }) => {
             </label>
             <label className="block">
               <span className="flex justify-between items-center text-neutral-800 dark:text-neutral-200">
-                Age
+                Phone
               </span>
               <Input
                 name="phone"
