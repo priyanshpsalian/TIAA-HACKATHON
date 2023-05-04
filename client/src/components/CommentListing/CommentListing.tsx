@@ -20,7 +20,7 @@ const DEMO_DATA: CommentListingDataType = {
   name: "Cody Fisher",
   date: "May 20, 2021",
   comment:
-    "There’s no stopping the tech giant. Apple now opens its 100th store in China.There’s no stopping the tech giant.",
+    " 	I was looking for a car that would be comfortable for my family and also suitable for carpooling. This car has been a perfect fit for both requirements. The spacious interior and smooth ride make it a pleasure to travel in, and it's been great for saving on fuel costs by carpooling with friends and colleagues.",
   starPoint: 5,
 };
 

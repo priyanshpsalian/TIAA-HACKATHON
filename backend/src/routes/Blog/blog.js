@@ -63,7 +63,7 @@ router.post("/addBlog", async (req, res) => {
 //     console.log(e);
 //   }
 // });
-router.get("/getBlogById/:id", async (req, res) => {
+router.get("/getBlogByuserId/:id", async (req, res) => {
   try {
     // console.log("K");
     let blogId = req.params.id;
@@ -72,7 +72,7 @@ router.get("/getBlogById/:id", async (req, res) => {
     // const update = await blog_model.findById(blogId);
     const update = await blog_model.find({"user":ObjectId(`${blogId}`)});
 
-    // console.log("KKK");
+    console.log("KKK");
     res.status(201).send(update);
   } catch (e) {
     console.log(e);
@@ -87,7 +87,7 @@ router.get("/getToEditBlogById/:id", async (req, res) => {
     const update = await blog_model.findById(blogId);
     // const update = await blog_model.find({ user: ObjectId(`${blogId}`) });
 
-    // console.log("KKK");
+    console.log("KKK");
     res.status(201).send(update);
   } catch (e) {
     console.log(e);
@@ -147,9 +147,20 @@ router.get("/updateBlogGuestList/:id/:gid", async (req, res) => {
     // console.log("L");
     // const update = await blog_model.findByIdAndUpdate(blogId, req.body);
     blogfound = await blog_model.findById(blogId);
+    userfound = await user_model.findById(guestId);
+    const biddata = {
+      userId: guestId,
+      bidPrice: 0,
+    };
 
-    blogfound.guest_list.push(guestId);
+    blogfound.guest_list.push(biddata);
+    userfound.joined.push(blogId);
+    if (!blogfound) {
+      return res.status(404).send({ message: "Model  not found" });
+    }
+
     await blogfound.save();
+    await userfound.save();
     res.status(201).send(blogfound);
   } catch (e) {
     console.log(e);
@@ -166,11 +177,51 @@ router.get("/removeGuestfromList/:id/:gid", async (req, res) => {
     blogfound = await blog_model.findById(blogId);
 
     blogfound.guest_list.pop(guestId);
+    if (!blogfound) {
+      return res.status(404).send({ message: "Model  not found" });
+    }
     await blogfound.save();
     res.status(201).send(blogfound);
   } catch (e) {
     console.log(e);
   }
 });
+// ------------------------------------------------------------------------
+router.get("/editBlogPrice/:id/:gid/:price", async (req, res) => {
+  try {
+    // console.log("K");
+    let blogId = req.params.id;
+    let guestId = req.params.gid;
+    let bidPrice = req.params.price;
+    // const { title, description } = req.body;
+    // console.log("L");
+    // const update = await blog_model.findByIdAndUpdate(blogId, req.body);
+    // blogfound = await blog_model.findById(blogId);
+    userfound = await user_model.findById(guestId);
+    // const biddata = {
+    //   userId: guestId,
+    //   bidPrice: 0,
+    // };
+    // const id="6452984da7bd9d42e782a29f"
+    const blogfound = await blog_model.findOneAndUpdate(
+      { _id: blogId, "guest_list.userId": guestId },
+      { $set: { "guest_list.$.bidPrice": bidPrice } },
+      { new: true }
+    );
+    if (!blogfound) {
+      return res.status(404).send({ message: "Model  not found" });
+    }
+    // console.log();
 
+    // blogfound.guest_list.push(biddata);
+    // userfound.joined.push(blogId);
+
+    await blogfound.save();
+    
+    // await userfound.save();
+    res.status(201).send(blogfound);
+  } catch (e) {
+    console.log(e);
+  }
+});
 module.exports = router;

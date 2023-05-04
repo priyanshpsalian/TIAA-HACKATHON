@@ -68,51 +68,54 @@ const DEMO_CATS: TaxonomyType[] = [
 
 const ListingCarPage: FC<ListingCarPageProps> = ({ className = "" }) => {
   return (
-    <div
-      className={`nc-ListingCarPage relative overflow-hidden ${className}`}
-      data-nc-id="ListingCarPage"
-    >
-      <Helmet>
-        <title>Car Pooling</title>
-      </Helmet>
-      <BgGlassmorphism />
+  
+    // <div
+    //   className={`nc-ListingCarPage relative overflow-hidden ${className}`}
+    //   data-nc-id="ListingCarPage"
+    // >
+    //   <Helmet>
+    //     <title>Car Pooling</title>
+    //   </Helmet>
+    //   <BgGlassmorphism />
 
-      <div className="container relative">
-        {/* SECTION HERO */}
-        <SectionHeroArchivePage
-          rightImage={heroRightImage}
-          currentPage="Cars"
-          currentTab="Cars"
-          listingType={
-            <>
-              <i className="text-2xl las la-car"></i>
-              <span className="ml-2.5">1512 cars</span>
-            </>
-          }
-          className="pt-10 pb-24 lg:pb-28 lg:pt-16 "
-        />
+    //   <div className="container relative">
+    //     {/* SECTION HERO */}
+    //     <SectionHeroArchivePage
+    //       rightImage={heroRightImage}
+    //       currentPage="Cars"
+    //       currentTab="Cars"
+    //       listingType={
+    //         <>
+    //           <i className="text-2xl las la-car"></i>
+    //           <span className="ml-2.5">1512 cars</span>
+    //         </>
+    //       }
+    //       className="pt-10 pb-24 lg:pb-28 lg:pt-16 "
+    //     />
 
-        {/* SECTION */}
-        <SectionGridFilterCard className="pb-24 lg:pb-28" />
-
-        {/* SECTION 1 */}
-        <div className="relative py-16">
-          <BackgroundSection />
-          <SectionSliderNewCategories
-            heading="Explore top destination ✈"
-            subHeading="Explore thousands of destinations around the world"
-            categoryCardType="card4"
-            itemPerRow={4}
-            categories={DEMO_CATS}
-            sliderStyle="style2"
-            uniqueClassName="ListingCarPage"
-          />
+    //     {/* SECTION */}
+    <div className="container relative">
+        <SectionGridFilterCard />
         </div>
 
-        {/* SECTION */}
-        <SectionSubscribe2 className="py-24 lg:py-28" />
-      </div>
-    </div>
+    //     {/* SECTION 1 */}
+    //     <div className="relative py-16">
+    //       <BackgroundSection />
+    //       <SectionSliderNewCategories
+    //         heading="Explore top destination ✈"
+    //         subHeading="Explore thousands of destinations around the world"
+    //         categoryCardType="card4"
+    //         itemPerRow={4}
+    //         categories={DEMO_CATS}
+    //         sliderStyle="style2"
+    //         uniqueClassName="ListingCarPage"
+    //       />
+    //     </div>
+
+    //     {/* SECTION */}
+    //     <SectionSubscribe2 className="py-24 lg:py-28" />
+    //   </div>
+    // </div>
   );
 };
 

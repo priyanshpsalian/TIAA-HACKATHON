@@ -1,6 +1,6 @@
 // import Head from "next/head";
 import { useEffect, useState } from "react";
-import Pusher from "pusher-js";
+import Pusher from "pusher-js"
 
 export default function Home() {
   const [priyansh, setUsername] = useState("priyansh");

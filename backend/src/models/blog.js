@@ -1,4 +1,14 @@
 const mongoose = require("mongoose");
+const bidschema = new mongoose.Schema({
+  userId: {
+    type: String,
+    // required: true,
+  },
+  bidPrice: {
+    type: String,
+    // required: true,
+  },
+});
 const productSchema = new mongoose.Schema({
   // title: {
   //   type: String,
@@ -56,13 +66,17 @@ const productSchema = new mongoose.Schema({
     type: "string",
     default: "open",
   },
-  guest_list: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: "Registers",
-      required: true,
-    },
-  ],
+  // guest_list: [
+  //   {
+  //     type: mongoose.Types.ObjectId,
+  //     ref: "Registers",
+  //     required: true,
+  //   },
+  // ],
+  // guest_list: ({
+  //   data: [bidschema]
+  // }),
+  guest_list: [bidschema],
   user: {
     type: mongoose.Types.ObjectId,
     ref: "Register",
