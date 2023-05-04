@@ -26,7 +26,7 @@ import LocationMarker from "components/AnyReactComponent/LocationMarker";
 import GoogleMapReact from "google-map-react";
 import axios from 'axios';
 // import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+// import 'react-datepicker/dist/react-datepicker.css';
 
 export interface CheckOutPageProps {
   className?: string;
