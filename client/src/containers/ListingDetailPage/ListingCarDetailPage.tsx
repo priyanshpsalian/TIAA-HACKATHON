@@ -37,6 +37,7 @@ import RentalCarDatesRangeInput from "components/HeroSearchForm/RentalCarDatesRa
 import { TimeRage } from "components/HeroSearchForm/RentalCarSearchForm";
 import MobileFooterSticky from "./MobileFooterSticky";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export interface ListingCarDetailPageProps {
   className?: string;
@@ -81,6 +82,7 @@ const Amenities_demos = [
 const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
   className = "",
 }) => {
+  const navigate = useNavigate();
   const [data, setData] = useState<Data | null>(null);
 
   interface Data {
@@ -372,6 +374,18 @@ const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
   // }
 
 // console.log(data?.description);
+const buttonStyle = {
+  backgroundColor: 'blue',
+  color: 'white',
+  padding: '10px 20px',
+  borderRadius: '5px',
+  border: 'none',
+  cursor: 'pointer',
+};
+
+const handleClick=() => {
+  navigate('/');
+}
   return (
     <div
       className={`ListingDetailPage nc-ListingCarDetailPage ${className}`}
@@ -388,15 +402,16 @@ const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
           <div className="block lg:hidden">{renderSidebarDetail()}</div>
          
           {renderSection5()}
-       
+          <button style={buttonStyle} onClick={handleClick}>Join</button>
         </div>
 
         {/* SIDEBAR */}
         <div className="block flex-grow mt-14 lg:mt-0">
           {renderSidebarDetail()}
         </div>
+      
       </main>
-
+      
     </div>
   );
 };

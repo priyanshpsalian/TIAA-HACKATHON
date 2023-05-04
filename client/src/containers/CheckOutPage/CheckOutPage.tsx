@@ -274,10 +274,10 @@ const handleSubmit = (e: React.ChangeEvent<any>) => {
         <input type="checkbox" value="no_smoking" name="amenities" onChange={handleChange} />
         No Smoking
       </label>
-      <label>
+      {/* <label>
         <input type="checkbox" value="option3" name="amenities" onChange={handleChange} />
         Option 3
-      </label>
+      </label> */}
             </div>
           </div>
         </div>

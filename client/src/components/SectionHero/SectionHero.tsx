@@ -2,12 +2,17 @@ import React, { FC } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import imagePng from "images/hero-right.png";
 import HeroSearchForm from "components/HeroSearchForm/HeroSearchForm";
+import { useNavigate } from 'react-router-dom';
 
 export interface SectionHeroProps {
   className?: string;
 }
 
 const SectionHero: FC<SectionHeroProps> = ({ className = "" }) => {
+  const navigate = useNavigate();
+  const handleButtonClick = () => {
+    navigate('/listing-car');
+  };
   return (
     <div
       className={`nc-SectionHero flex flex-col-reverse lg:flex-col relative ${className}`}
@@ -21,7 +26,7 @@ const SectionHero: FC<SectionHeroProps> = ({ className = "" }) => {
           <span className="text-base md:text-lg text-neutral-500 dark:text-neutral-400">
             Accompanying us, you have a trip full of experiences. With car pooling.
           </span>
-          <ButtonPrimary>Start your search</ButtonPrimary>
+          <button onClick={handleButtonClick}><ButtonPrimary>Start your search</ButtonPrimary></button>
         </div>
         <div className="flex-grow">
           <img className="w-full" src={imagePng} alt="hero" />
