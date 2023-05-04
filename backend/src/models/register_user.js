@@ -37,11 +37,20 @@ const employeescheema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  blogs:[{
-    type:mongoose.Types.ObjectId,
-    ref:"products",
-    required:true
-  }],
+  blogs: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "products",
+      required: true,
+    },
+  ],
+  joined: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "products",
+      required: true,
+    },
+  ],
   tokens: [
     {
       token: {

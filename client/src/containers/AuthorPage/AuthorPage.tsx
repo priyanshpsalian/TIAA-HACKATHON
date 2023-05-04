@@ -47,8 +47,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = "" }) => {
 
         {/* ---- */}
         <p className="text-neutral-500 dark:text-neutral-400">
-          Providing lake views, The Symphony 9 Tam Coc in Ninh Binh provides
-          accommodation, an outdoor.
+         he3yg 
         </p>
 
         {/* ---- */}
