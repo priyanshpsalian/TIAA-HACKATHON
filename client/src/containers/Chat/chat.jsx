@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Pusher from "pusher-js"
 
 export default function Home() {
-  const [username, setUsername] = useState("username");
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   let allMessages = [];
@@ -29,7 +28,7 @@ export default function Home() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username,
+
         message,
       }),
     });
@@ -38,50 +37,52 @@ export default function Home() {
   };
 
   return (
-    <div className="container">
-      {/* <Head> */}
+    <div className="bg-gradient-to-r from-gray-900 to-gray-900">
+      <div className="container bg-white">
+        {/* <Head> */}
         <link
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
           crossOrigin="anonymous"
         />
-      {/* </Head> */}
+        {/* </Head> */}
 
-      <div className="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
-        <div className="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-          <input
-            className="fs-5 fw-semibold"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div
-          className="list-group list-group-flush border-bottom scrollarea"
-          style={{ minHeight: "500px" }}
-        >
-          {messages.map((message) => {
-            return (
-              <div className="list-group-item list-group-item-action py-3 lh-tight">
-                <div className="d-flex w-100 align-items-center justify-content-between">
+        <div className="d-flex flex-column align-items-stretch flex-shrink-0">
+          <div className="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+            <input
+              className="fs-5 fw-semibold "
+            />
+          </div>
+          <div
+            className="list-group list-group-flush border-bottom scrollarea width 300px margin 200px "
+            style={{ minHeight: "500px" }}
+          >
+            {messages.map((message) => {
+              return (
+
+                <div className="list-group-item list-group-item-action py-3 lh-tight  ">
                   <strong className="mb-1">{message.username}</strong>
+                  <div className="col-10 mb-1 small box-border h-20 p-4 border-4 bg font-medium  rounded-r-lg rounded-l-lg bg-gradient-to-r from-indigo-600 to-indigo-500 text-white ">{message.message}</div>
                 </div>
-                <div className="col-10 mb-1 small">{message.message}</div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+              );
+            })}
 
-      <form onSubmit={submit}>
-        <input
-          className="form-control"
-          placeholder="Write a message"
-          value={message}
-          onChange={(e) =>{setMessage(e.target.value);
-        console.log(e);}}
-        />
-      </form>
-    </div>
+          </div>
+        </div>
+
+        <form onSubmit={submit}>
+          <input
+            className="form-control"
+            placeholder="Write a message"
+            value={message}
+            onChange={(e) => {
+              setMessage(e.target.value);
+              console.log(e);
+            }}
+          />
+        </form>
+      </div></div>
   );
 }
+
