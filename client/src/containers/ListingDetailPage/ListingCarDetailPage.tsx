@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState,useEffect } from "react";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import LocationMarker from "components/AnyReactComponent/LocationMarker";
 import CommentListing from "components/CommentListing/CommentListing";
@@ -36,6 +36,7 @@ import carUtilities8 from "images/carUtilities/8.png";
 import RentalCarDatesRangeInput from "components/HeroSearchForm/RentalCarDatesRangeInput";
 import { TimeRage } from "components/HeroSearchForm/RentalCarSearchForm";
 import MobileFooterSticky from "./MobileFooterSticky";
+import axios from 'axios';
 
 export interface ListingCarDetailPageProps {
   className?: string;
@@ -80,6 +81,43 @@ const Amenities_demos = [
 const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
   className = "",
 }) => {
+  const [data, setData] = useState<Data | null>(null);
+
+  interface Data {
+    amenities: string[];
+    car_number: string;
+    city: string;
+    close: string;
+    contact: string;
+    date: string;
+    description: string;
+    drop: string;
+    guest_list: string[];
+    guests: string;
+    pickup: string;
+    postal_code: string;
+    price: string;
+    street: string;
+    time: string;
+    user: string;
+    __v: number;
+    _id: string;
+    
+  }
+
+  // let data: Car | undefined;
+
+  useEffect(()=>{
+
+    axios.get<Data>(`http://localhost:5000/blog/getToEditBlogById/${localStorage.getItem("car_id")}`)
+    .then(response => {
+      setData(response.data);
+      })
+    .catch(error => {
+      console.log(error);
+    });
+  },[])
+
   const [isOpen, setIsOpen] = useState(false);
   const [openFocusIndex, setOpenFocusIndex] = useState(0);
 
@@ -123,22 +161,22 @@ const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
       <div className="listingSection__wrap !space-y-6">
         {/* 1 */}
         <div className="flex justify-between items-center">
-          <Badge color="pink" name="BMW car" />
+          {/* <Badge color="pink" name="" /> */}
           <LikeSaveBtns />
         </div>
 
         {/* 2 */}
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold">
-          BMW 3 Series Sedan
+          {data?.description}
         </h2>
 
         {/* 3 */}
         <div className="flex items-center space-x-4">
-          <StartRating />
+          {/* <StartRating /> */}
           <span>·</span>
           <span>
             <i className="las la-map-marker-alt"></i>
-            <span className="ml-1"> Tokyo, Jappan</span>
+            <span className="ml-1"> {data?.pickup}</span>
           </span>
         </div>
 
@@ -146,9 +184,9 @@ const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
         <div className="flex items-center">
           <Avatar hasChecked sizeClass="h-10 w-10" radius="rounded-full" />
           <span className="ml-2.5 text-neutral-500 dark:text-neutral-400">
-            Car owner{" "}
+            Car number{" "}
             <span className="text-neutral-900 dark:text-neutral-200 font-medium">
-              Kevin Francis
+              {data?.car_number}
             </span>
           </span>
         </div>
@@ -163,154 +201,20 @@ const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
             <span className="">4 seats</span>
           </div>
           <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 text-center sm:text-left sm:space-x-3 ">
-            <i className="las la-dharmachakra text-2xl"></i>
-            <span className=""> Auto gearbox</span>
+            <i className="las la-calendar text-2xl"></i>
+            <span className=""> {data?.date}</span>
           </div>
           <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 text-center sm:text-left sm:space-x-3 ">
-            <i className="las la-suitcase text-2xl"></i>
-            <span className=""> 2 bags</span>
+            <i className="las la-clock text-2xl"></i>
+            <span className=""> {data?.time} </span>
           </div>
         </div>
       </div>
     );
   };
 
-  //
-  const renderSectionTienIch = () => {
-    return (
-      <div className="listingSection__wrap">
-        <div>
-          <h2 className="text-2xl font-semibold">
-            Vehicle parameters & utilities{" "}
-          </h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
-            Questions are at the heart of making things great.
-          </span>
-        </div>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
-        {/* 6 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-6 gap-x-10 text-sm text-neutral-700 dark:text-neutral-300 ">
-          {/* TIEN ICH 1 */}
-          {Amenities_demos.map((item, index) => (
-            <div key={index} className="flex items-center space-x-4 ">
-              <div className="w-10 flex-shrink-0">
-                <img src={item.icon} alt="" />
-              </div>
-              <span>{item.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
+  
 
-  const renderSection2 = () => {
-    return (
-      <div className="listingSection__wrap">
-        <h2 className="text-2xl font-semibold">Car descriptions</h2>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
-        <div className="text-neutral-6000 dark:text-neutral-300">
-          <p>
-            Until the all-new TUCSON hits the dealer showrooms you can check it
-            out in our Showroom Walkaround video. Watch the video and join our
-            product specialist as he gives you an up-close look of our latest
-            SUV
-            <br />
-            <br />
-            Questions are at the heart of making things great. Watch our
-            celebrity-filled TV ad and you’ll see that when we say “everything,”
-            we mean everything.
-          </p>
-        </div>
-      </div>
-    );
-  };
-
-  const renderSection3 = () => {
-    return (
-      <div className="listingSection__wrap">
-        <div>
-          <h2 className="text-2xl font-semibold">Include </h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
-            Included in the price
-          </span>
-        </div>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
-        {/* 6 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 text-sm text-neutral-700 dark:text-neutral-300 ">
-          {includes_demo
-            .filter((_, i) => i < 12)
-            .map((item) => (
-              <div key={item.name} className="flex items-center space-x-3">
-                <i className="las la-check-circle text-2xl"></i>
-                <span>{item.name}</span>
-              </div>
-            ))}
-        </div>
-      </div>
-    );
-  };
-
-  const renderSectionCheckIndate = () => {
-    return (
-      <div className="listingSection__wrap overflow-hidden">
-        {/* HEADING */}
-        <div>
-          <h2 className="text-2xl font-semibold">Availability</h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
-            Prices may increase on weekends or holidays
-          </span>
-        </div>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
-        {/* CONTENT */}
-        <div className="listingSection__wrap__DayPickerRangeController flow-root">
-          <div className="-mx-4 sm:mx-auto xl:mx-[-22px]">
-            <DayPickerRangeController
-              startDate={dateRangeValue.startDate}
-              endDate={dateRangeValue.endDate}
-              onDatesChange={(date) => setDateRangeValue(date)}
-              focusedInput={focusedInputSectionCheckDate}
-              onFocusChange={(focusedInput) =>
-                setFocusedInputSectionCheckDate(focusedInput || "startDate")
-              }
-              initialVisibleMonth={null}
-              numberOfMonths={windowSize.width < 1280 ? 1 : 2}
-              daySize={getDaySize()}
-              hideKeyboardShortcutsPanel
-              isOutsideRange={(day) => !isInclusivelyAfterDay(day, moment())}
-            />
-          </div>
-        </div>
-
-        {/*  */}
-        <div className="flex space-x-8">
-          <div className="w-1/2 space-y-2">
-            <label className="font-medium" htmlFor="startTime">
-              Pick up time:
-            </label>
-            <Input
-              defaultValue={timeRangeValue.startTime}
-              rounded="rounded-xl"
-              id="startTime"
-              type="time"
-            />
-          </div>
-          <div className="w-1/2 space-y-2">
-            <label className="font-medium" htmlFor="endTime">
-              Drop off time:
-            </label>
-            <Input
-              defaultValue={timeRangeValue.endTime}
-              rounded="rounded-xl"
-              id="endTime"
-              type="time"
-              onChange={(e) => console.log(e)}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   const renderSection5 = () => {
     return (
@@ -329,25 +233,24 @@ const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
           />
           <div>
             <a className="block text-xl font-medium" href="##">
-              Kevin Francis
+              {data?.car_number}
             </a>
             <div className="mt-1.5 flex items-center text-sm text-neutral-500 dark:text-neutral-400">
               <StartRating />
               <span className="mx-2">·</span>
-              <span> 12 places</span>
+              <i className="las la-phone text-2xl"></i>
+              <span> {data?.contact}</span>
             </div>
           </div>
         </div>
 
         {/* desc */}
         <span className="block text-neutral-6000 dark:text-neutral-300">
-          Providing lake views, The Symphony 9 Tam Coc in Ninh Binh provides
-          accommodation, an outdoor swimming pool, a bar, a shared lounge, a
-          garden and barbecue facilities...
+         {data?.street}{" "}{data?.city}
         </span>
 
         {/* info */}
-        <div className="block text-neutral-500 dark:text-neutral-400 space-y-2.5">
+        {/* <div className="block text-neutral-500 dark:text-neutral-400 space-y-2.5">
           <div className="flex items-center space-x-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -400,173 +303,19 @@ const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
 
             <span>Fast response - within a few hours</span>
           </div>
-        </div>
+        </div> */}
 
         {/* == */}
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+        {/* <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
         <div>
           <ButtonSecondary href="##">See host profile</ButtonSecondary>
-        </div>
+        </div> */}
       </div>
     );
   };
 
-  const renderSection6 = () => {
-    return (
-      <div className="listingSection__wrap">
-        {/* HEADING */}
-        <h2 className="text-2xl font-semibold">Reviews (23 reviews)</h2>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
 
-        {/* Content */}
-        <div className="space-y-5">
-          <FiveStartIconForRate iconClass="w-6 h-6" className="space-x-0.5" />
-          <div className="relative">
-            <Input
-              fontClass=""
-              sizeClass="h-16 px-4 py-3"
-              rounded="rounded-3xl"
-              placeholder="Share your thoughts ..."
-            />
-            <ButtonCircle
-              className="absolute right-2 top-1/2 transform -translate-y-1/2"
-              size=" w-12 h-12 "
-            >
-              <ArrowRightIcon className="w-5 h-5" />
-            </ButtonCircle>
-          </div>
-        </div>
 
-        {/* comment */}
-        <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
-          <CommentListing className="py-8" />
-          <CommentListing className="py-8" />
-          <CommentListing className="py-8" />
-          <CommentListing className="py-8" />
-          <div className="pt-8">
-            <ButtonSecondary>View more 20 reviews</ButtonSecondary>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const renderSection7 = () => {
-    return (
-      <div className="listingSection__wrap">
-        {/* HEADING */}
-        <div>
-          <h2 className="text-2xl font-semibold">Location</h2>
-          <span className="block mt-2 text-neutral-500 dark:text-neutral-400">
-            San Diego, CA, United States of America (SAN-San Diego Intl.)
-          </span>
-        </div>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700" />
-
-        {/* MAP */}
-        <div className="aspect-w-5 aspect-h-5 sm:aspect-h-3">
-          <div className="rounded-xl overflow-hidden">
-            <GoogleMapReact
-              bootstrapURLKeys={{
-                key: "AIzaSyAGVJfZMAKYfZ71nzL_v5i3LjTTWnCYwTY",
-              }}
-              yesIWantToUseGoogleMapApiInternals
-              defaultZoom={15}
-              defaultCenter={{
-                lat: 55.9607277,
-                lng: 36.2172614,
-              }}
-            >
-              <LocationMarker lat={55.9607277} lng={36.2172614} />
-            </GoogleMapReact>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const renderSection8 = () => {
-    return (
-      <div className="listingSection__wrap">
-        {/* HEADING */}
-        <h2 className="text-2xl font-semibold">Things to know</h2>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700" />
-
-        {/* CONTENT */}
-        <div>
-          <h4 className="text-lg font-semibold">Cancellation policy</h4>
-          <span className="block mt-3 text-neutral-500 dark:text-neutral-400">
-            Lock in this fantastic price today, cancel free of charge anytime.
-            Reserve now and pay at pick-up.
-          </span>
-        </div>
-        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700" />
-
-        {/* CONTENT */}
-        <div>
-          <h4 className="text-lg font-semibold">Special Note</h4>
-          <span className="block mt-3 text-neutral-500 dark:text-neutral-400">
-            We asked ourselves, “How can we make the dash not only look better,
-            but also give the driver a better look outside?” The unexpected
-            answer is having no hood above the available 10.25-inch digital
-            instrument cluster...
-          </span>
-        </div>
-      </div>
-    );
-  };
-
-  const renderSidebarPrice = () => {
-    return (
-      <div className="listingSectionSidebar__wrap shadow-xl">
-        {/* PRICE */}
-        <div className="flex justify-between">
-          <span className="text-3xl font-semibold">
-            $19
-            <span className="ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400">
-              /day
-            </span>
-          </span>
-          <StartRating />
-        </div>
-
-        {/* FORM */}
-        <form className="flex border  border-neutral-200 dark:border-neutral-700 rounded-3xl ">
-          <RentalCarDatesRangeInput
-            defaultDateValue={dateRangeValue}
-            defaultTimeValue={timeRangeValue}
-            numberOfMonths={2}
-            fieldClassName="p-3"
-            wrapFieldClassName="flex flex-col w-full flex-shrink-0 relative divide-y divide-neutral-200 dark:divide-neutral-700"
-            className="RentalCarDetailPageDatesRangeInput flex-1"
-            onChange={(data) => {
-              setDateRangeValue(data.stateDate);
-              setTimeRangeValue(data.stateTimeRage);
-            }}
-            anchorDirection={"right"}
-            hasButtonSubmit={false}
-          />
-        </form>
-
-        {/* SUM */}
-        <div className="flex flex-col space-y-4 ">
-          <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>$19 x 3 day</span>
-            <span>$57</span>
-          </div>
-
-          <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
-          <div className="flex justify-between font-semibold">
-            <span>Total</span>
-            <span>$199</span>
-          </div>
-        </div>
-
-        {/* SUBMIT */}
-        <ButtonPrimary href={"/checkout"}>Reserve</ButtonPrimary>
-      </div>
-    );
-  };
 
   const renderSidebarDetail = () => {
     return (
@@ -583,18 +332,18 @@ const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
           <div className="ml-4 space-y-14 text-sm">
             <div className="flex flex-col space-y-2">
               <span className=" text-neutral-500 dark:text-neutral-400">
-                Monday, August 12 · 10:00
+                {data?.date}{"      "+ data?.time}
               </span>
               <span className=" font-semibold">
-                Saint Petersburg City Center
+                {data?.pickup}
               </span>
             </div>
             <div className="flex flex-col space-y-2">
-              <span className=" text-neutral-500 dark:text-neutral-400">
+              {/* <span className=" text-neutral-500 dark:text-neutral-400">
                 Monday, August 16 · 10:00
-              </span>
+              </span> */}
               <span className=" font-semibold">
-                Saint Petersburg City Center
+              {data?.drop}
               </span>
             </div>
           </div>
@@ -603,144 +352,55 @@ const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
     );
   };
 
+  // const [isLoading, setIsLoading] = useState(true);
+
+  // // simulate a loading state for 2 seconds
+  // setTimeout(() => {
+  //   setIsLoading(false);
+  //   axios.get(`http://localhost:5000/blog/getToEditBlogById/${localStorage.getItem("car_id")}`)
+  //   .then(response => {
+  //     data=response.data;
+  //     console.log(data?.description);
+  //     })
+  //   .catch(error => {
+  //     console.log(error);
+  //   });
+  // }, 5000);
+
+  // if (isLoading) {
+  //   return <p>Loading...</p>;
+  // }
+
+// console.log(data?.description);
   return (
     <div
       className={`ListingDetailPage nc-ListingCarDetailPage ${className}`}
       data-nc-id="ListingCarDetailPage"
     >
-      {/* SINGLE HEADER */}
-      <>
-        <header className="container 2xl:px-14 rounded-md sm:rounded-xl">
-          <div className="relative grid grid-cols-4 gap-1 sm:gap-2">
-            <div
-              className="col-span-2 row-span-2 relative rounded-md sm:rounded-xl overflow-hidden cursor-pointer"
-              onClick={() => handleOpenModal(0)}
-            >
-              <NcImage
-                containerClassName="absolute inset-0"
-                className="object-cover w-full h-full rounded-md sm:rounded-xl"
-                src={PHOTOS[0]}
-              />
-              <div className="absolute inset-0 bg-neutral-900 bg-opacity-20 opacity-0 hover:opacity-100 transition-opacity"></div>
-            </div>
 
-            {/*  */}
-            <div
-              className="col-span-1 row-span-2 relative rounded-md sm:rounded-xl overflow-hidden cursor-pointer"
-              onClick={() => handleOpenModal(1)}
-            >
-              <NcImage
-                containerClassName="absolute inset-0"
-                className="object-cover w-full h-full rounded-md sm:rounded-xl"
-                src={PHOTOS[1]}
-              />
-              <div className="absolute inset-0 bg-neutral-900 bg-opacity-20 opacity-0 hover:opacity-100 transition-opacity"></div>
-            </div>
-
-            {/*  */}
-            {PHOTOS.filter((_, i) => i >= 2 && i < 4).map((item, index) => (
-              <div
-                key={index}
-                className={`relative rounded-md sm:rounded-xl overflow-hidden ${
-                  index >= 2 ? "block" : ""
-                }`}
-              >
-                <NcImage
-                  containerClassName="aspect-w-4 aspect-h-3"
-                  className="object-cover w-full h-full rounded-md sm:rounded-xl "
-                  src={item || ""}
-                />
-
-                {/* OVERLAY */}
-                <div
-                  className="absolute inset-0 bg-neutral-900 bg-opacity-20 opacity-0 hover:opacity-100 transition-opacity cursor-pointer"
-                  onClick={() => handleOpenModal(index + 2)}
-                />
-              </div>
-            ))}
-
-            <div
-              className="absolute hidden md:flex md:items-center md:justify-center left-3 bottom-3 px-4 py-2 rounded-xl bg-neutral-100 text-neutral-500 cursor-pointer hover:bg-neutral-200 z-10"
-              onClick={() => handleOpenModal(0)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                />
-              </svg>
-              <span className="ml-2 text-neutral-800 text-sm font-medium">
-                Show all photos
-              </span>
-            </div>
-          </div>
-        </header>
-        {/* MODAL PHOTOS */}
-        <ModalPhotos
-          imgs={PHOTOS}
-          isOpen={isOpen}
-          onClose={handleCloseModal}
-          initFocus={openFocusIndex}
-          uniqueClassName="nc-ListingCarDetailPage__modalPhotos"
-        />
-      </>
 
       {/* MAIn */}
       <main className="container relative z-10 mt-11 flex flex-col lg:flex-row ">
         {/* CONTENT */}
         <div className="w-full lg:w-3/5 xl:w-2/3 space-y-8 lg:pr-10 lg:space-y-10">
+       
           {renderSection1()}
           <div className="block lg:hidden">{renderSidebarDetail()}</div>
-          {renderSectionTienIch()}
-          {renderSection2()}
-          {renderSection3()}
-          {renderSectionCheckIndate()}
+         
           {renderSection5()}
-          {renderSection6()}
-          {renderSection7()}
-          {renderSection8()}
+       
         </div>
 
         {/* SIDEBAR */}
         <div className="block flex-grow mt-14 lg:mt-0">
           {renderSidebarDetail()}
-          <div className="hidden lg:block mt-10 sticky top-28">
-            {renderSidebarPrice()}
-          </div>
         </div>
       </main>
 
-      {/* STICKY FOOTER MOBILE */}
-      <MobileFooterSticky />
-
-      {/* OTHER SECTION */}
-      <div className="container py-24 lg:py-32">
-        {/* SECTION 1 */}
-        <div className="relative py-16">
-          <BackgroundSection />
-          <SectionSliderNewCategories
-            heading="Explore by types of stays"
-            subHeading="Explore houses based on 10 types of stays"
-            categoryCardType="card5"
-            itemPerRow={5}
-            sliderStyle="style2"
-            uniqueClassName="ListingCarDetailPage"
-          />
-        </div>
-
-        {/* SECTION */}
-        <SectionSubscribe2 className="pt-24 lg:pt-32" />
-      </div>
     </div>
   );
 };
 
 export default ListingCarDetailPage;
+
+
