@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Pusher from "pusher-js"
 
 export default function Home() {
-  const [priyansh, setUsername] = useState("priyansh");
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   let allMessages = [];
@@ -29,7 +28,7 @@ export default function Home() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        priyansh,
+
         message,
       }),
     });
@@ -53,8 +52,6 @@ export default function Home() {
           <div className="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
             <input
               className="fs-5 fw-semibold "
-              value={priyansh}
-              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div
