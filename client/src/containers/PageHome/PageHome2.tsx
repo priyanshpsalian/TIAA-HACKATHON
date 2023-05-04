@@ -171,7 +171,7 @@ function PageHome2() {
           categoryCardType="card4"
           itemPerRow={4}
           heading="Suggestions for discovery"
-          subHeading="Popular places to stay that car pooling recommends for you"
+          subHeading="Popular places thgygo stay that car pooling recommends for you"
           uniqueClassName="PageHome2_s1"
         />
 

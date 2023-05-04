@@ -47,6 +47,12 @@ import FooterNav from "components/FooterNav";
 import useWindowSize from "hooks/useWindowResize";
 import PageHome3 from "containers/PageHome/PageHome3";
 
+
+
+import Chat from "containers/Chat/chat";
+import ActiveBooking from "components/ActiveBooking/ActiveBooking";
+import AuctionCard from "components/Auction/AuctionCard";
+
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome },
   { path: "/#", exact: true, component: PageHome },
@@ -57,6 +63,9 @@ export const pages: Page[] = [
   { path: "/listing-stay", component: ListingStayPage },
   { path: "/listing-stay-map", component: ListingStayMapPage },
   { path: "/listing-stay-detail", component: ListingStayDetailPage },
+  //
+  {path: "/activebook",component: ActiveBooking},
+  {path: "/bid", component:AuctionCard},
   //
   {
     path: "/listing-experiences",
@@ -108,6 +117,9 @@ export const pages: Page[] = [
   { path: "/signup", component: PageSignUp },
   { path: "/login", component: PageLogin },
   { path: "/subscription", component: PageSubcription },
+  //
+
+  { path: "/chat", component: Chat },
   //
 ];
 

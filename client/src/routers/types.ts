@@ -25,6 +25,9 @@ export interface LocationStates {
   "/listing-car-map"?: {};
   "/listing-car-detail"?: {};
   //
+  "/activebook"?:{};
+  "/bid"?:{},
+  //
   "/checkout"?: {};
   "/pay-done"?: {};
   //
@@ -56,6 +59,7 @@ export interface LocationStates {
   "/forgot-pass"?: {};
   "/page404"?: {};
   "/subscription"?: {};
+  "/chat"?: {};
 }
 
 export type PathName = keyof LocationStates;
