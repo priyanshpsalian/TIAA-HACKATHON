@@ -25,7 +25,7 @@ const widgetMenus: WidgetFooterMenu[] = [
     id: "1",
     title: "Explore",
     menus: [
-      { href: "#", label: "Design features" },
+      { href: "#", label: "" },
       { href: "#", label: "Prototyping" },
       { href: "#", label: "Design systems" },
       { href: "#", label: "Pricing" },
