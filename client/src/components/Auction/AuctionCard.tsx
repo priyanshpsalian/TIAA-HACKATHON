@@ -5,10 +5,7 @@ import Avatar from 'shared/Avatar/Avatar';
 
 const AuctionCard = () => {
     function submitBid (event : React.ChangeEvent<any>){
-        const {name,}
-        return {
-            name
-        }
+    
 
     }
 
@@ -117,7 +114,7 @@ const AuctionCard = () => {
                 </div>
             <div className=''></div>
         </div>
-        <button type="button" className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mx-auto max-w-xs" onClick={submitBid()}>Submit</button>
+        <button type="button" className=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-5  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mx-auto max-w-xs">Submit</button>
     </div>
   )
 }
