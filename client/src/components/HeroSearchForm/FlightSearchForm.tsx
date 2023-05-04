@@ -229,14 +229,14 @@ const FlightSearchForm: FC<FlightSearchFormProps> = ({ haveDefaultValue }) => {
                 onChange={(e) => setPickUpInputValue(e)}
                 onInputDone={() => setFieldFocused("dropOffInput")}
                 placeHolder="Pick from"
-                desc="Where do you want to fly from?"
+                desc="Where do you want to ride from?"
               />
               <LocationInput
                 defaultValue={dropOffInputValue}
                 onChange={(e) => setDropOffInputValue(e)}
                 onInputDone={() => setFieldFocused("startDate")}
                 placeHolder="Pick to"
-                desc="Where you want to fly to?"
+                desc="Where you want to ride to?"
                 autoFocus={fieldFocused === "dropOffInput"}
               />
             </div>
