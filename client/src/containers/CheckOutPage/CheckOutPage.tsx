@@ -25,8 +25,8 @@ import { MapPinIcon } from "@heroicons/react/24/solid";
 import LocationMarker from "components/AnyReactComponent/LocationMarker";
 import GoogleMapReact from "google-map-react";
 import axios from 'axios';
-// import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { useNavigate } from 'react-router-dom';
+
 
 export interface CheckOutPageProps {
   className?: string;
@@ -35,7 +35,7 @@ export interface CheckOutPageProps {
 
 const CheckOutPage: FC<CheckOutPageProps> = ({ className = "" }) => {
 
-
+  const navigate = useNavigate();
   const [formData, setFormData] = React.useState(
     {
         street: "",
@@ -51,6 +51,7 @@ const CheckOutPage: FC<CheckOutPageProps> = ({ className = "" }) => {
         guests:"",
         pickup:"",
         drop:"",
+        user:"645297a3a7bd9d42e782a29b",
     }
 )
 
@@ -65,15 +66,19 @@ function handleChange(event: React.ChangeEvent<any>) {
 }
 
 
+
+
+
 const handleSubmit = (e: React.ChangeEvent<any>) => {
   e.preventDefault();
-  // axios.post('/api/form-submit-url', {formData,guests,rangeDates })
-  // .then((response) => {
-  //   console.log(response);
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  // });
+    axios.post('http://localhost:5000/blog/addBlog', formData)
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+  navigate('/');
 };
 
 
@@ -234,7 +239,7 @@ const handleSubmit = (e: React.ChangeEvent<any>) => {
                 <div className="rounded-xl overflow-hidden">
                   <GoogleMapReact
                     bootstrapURLKeys={{
-                      key: "AIzaSyAGVJfZMAKYfZ71nzL_v5i3LjTTWnCYwTY",
+                      key: "",
                     }}
                     yesIWantToUseGoogleMapApiInternals
                     defaultZoom={15}

@@ -72,7 +72,7 @@ router.get("/getBlogByuserId/:id", async (req, res) => {
     // const update = await blog_model.findById(blogId);
     const update = await blog_model.find({"user":ObjectId(`${blogId}`)});
 
-    // console.log("KKK");
+    console.log("KKK");
     res.status(201).send(update);
   } catch (e) {
     console.log(e);
@@ -87,7 +87,7 @@ router.get("/getToEditBlogById/:id", async (req, res) => {
     const update = await blog_model.findById(blogId);
     // const update = await blog_model.find({ user: ObjectId(`${blogId}`) });
 
-    // console.log("KKK");
+    console.log("KKK");
     res.status(201).send(update);
   } catch (e) {
     console.log(e);
