@@ -155,6 +155,9 @@ router.get("/updateBlogGuestList/:id/:gid", async (req, res) => {
 
     blogfound.guest_list.push(biddata);
     userfound.joined.push(blogId);
+    if (!blogfound) {
+      return res.status(404).send({ message: "Model  not found" });
+    }
 
     await blogfound.save();
     await userfound.save();
@@ -174,6 +177,9 @@ router.get("/removeGuestfromList/:id/:gid", async (req, res) => {
     blogfound = await blog_model.findById(blogId);
 
     blogfound.guest_list.pop(guestId);
+    if (!blogfound) {
+      return res.status(404).send({ message: "Model  not found" });
+    }
     await blogfound.save();
     res.status(201).send(blogfound);
   } catch (e) {
@@ -186,42 +192,36 @@ router.get("/editBlogPrice/:id/:gid/:price", async (req, res) => {
     // console.log("K");
     let blogId = req.params.id;
     let guestId = req.params.gid;
-    let price = req.params.price;
+    let bidPrice = req.params.price;
     // const { title, description } = req.body;
     // console.log("L");
     // const update = await blog_model.findByIdAndUpdate(blogId, req.body);
-    blogfound = await blog_model.findById(blogId);
+    // blogfound = await blog_model.findById(blogId);
     userfound = await user_model.findById(guestId);
-    const biddata = {
-      userId: guestId,
-      bidPrice: 0,
-    };
+    // const biddata = {
+    //   userId: guestId,
+    //   bidPrice: 0,
+    // };
+    // const id="6452984da7bd9d42e782a29f"
+    const blogfound = await blog_model.findOneAndUpdate(
+      { _id: blogId, "guest_list.userId": guestId },
+      { $set: { "guest_list.$.bidPrice": bidPrice } },
+      { new: true }
+    );
+    if (!blogfound) {
+      return res.status(404).send({ message: "Model  not found" });
+    }
+    // console.log();
 
-    blogfound.guest_list.push(biddata);
-    userfound.joined.push(blogId);
+    // blogfound.guest_list.push(biddata);
+    // userfound.joined.push(blogId);
 
     await blogfound.save();
-    await userfound.save();
+    
+    // await userfound.save();
     res.status(201).send(blogfound);
   } catch (e) {
     console.log(e);
   }
 });
-// router.get("/join/:id/:gid", async (req, res) => {
-//   try {
-//     // console.log("K");
-//     let blogId = req.params.id;
-//     let guestId = req.params.gid;
-//     // const { title, description } = req.body;
-//     // console.log("L");
-//     // const update = await blog_model.findByIdAndUpdate(blogId, req.body);
-//     userfound = await user_model.findById(guestId);
-
-//     blogfound.guest_list.pop(guestId);
-//     await blogfound.save();
-//     res.status(201).send(blogfound);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
 module.exports = router;
