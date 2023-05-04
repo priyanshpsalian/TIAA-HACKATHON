@@ -147,9 +147,17 @@ router.get("/updateBlogGuestList/:id/:gid", async (req, res) => {
     // console.log("L");
     // const update = await blog_model.findByIdAndUpdate(blogId, req.body);
     blogfound = await blog_model.findById(blogId);
+    userfound = await user_model.findById(guestId);
+    const biddata = {
+      userId: guestId,
+      bidPrice: 0,
+    };
 
-    blogfound.guest_list.push(guestId);
+    blogfound.guest_list.push(biddata);
+    userfound.joined.push(blogId);
+
     await blogfound.save();
+    await userfound.save();
     res.status(201).send(blogfound);
   } catch (e) {
     console.log(e);
@@ -172,5 +180,21 @@ router.get("/removeGuestfromList/:id/:gid", async (req, res) => {
     console.log(e);
   }
 });
+// router.get("/join/:id/:gid", async (req, res) => {
+//   try {
+//     // console.log("K");
+//     let blogId = req.params.id;
+//     let guestId = req.params.gid;
+//     // const { title, description } = req.body;
+//     // console.log("L");
+//     // const update = await blog_model.findByIdAndUpdate(blogId, req.body);
+//     userfound = await user_model.findById(guestId);
 
+//     blogfound.guest_list.pop(guestId);
+//     await blogfound.save();
+//     res.status(201).send(blogfound);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// });
 module.exports = router;
