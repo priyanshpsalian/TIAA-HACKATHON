@@ -198,7 +198,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
         <div className="text-neutral-6000 dark:text-neutral-300">
           <span>
-            Providing lake views, The Symphony 9 Tam Coc in Ninh Binh provides
+            jjjProviding lake views, The Symphony 9 Tam Coc in Ninh Binh provides
             accommodation, an outdoor swimming pool, a bar, a shared lounge, a
             garden and barbecue facilities. Complimentary WiFi is provided.
           </span>
@@ -431,7 +431,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
 
         {/* desc */}
         <span className="block text-neutral-6000 dark:text-neutral-300">
-          Providing lake views, The Symphony 9 Tam Coc in Ninh Binh provides
+          ggggProviding lake views, The Symphony 9 Tam Coc in Ninh Binh provides
           accommodation, an outdoor swimming pool, a bar, a shared lounge, a
           garden and barbecue facilities...
         </span>

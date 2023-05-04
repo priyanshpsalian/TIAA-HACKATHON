@@ -29,42 +29,16 @@ const SectionOurFeatures: FC<SectionOurFeaturesProps> = ({
           type === "type1" ? "lg:pl-16" : "lg:pr-16"
         }`}
       >
-        <span className="uppercase text-sm text-gray-400 tracking-widest">
-          BENnefits
-        </span>
-        <h2 className="font-semibold text-4xl mt-5">Happening cities </h2>
+        
 
         <ul className="space-y-10 mt-16">
           <li className="space-y-4">
-            <Badge name="Advertising" />
-            <span className="block text-xl font-semibold">
-              Cost-effective advertising
-            </span>
-            <span className="block mt-5 text-neutral-500 dark:text-neutral-400">
-              With a free listing, you can advertise your rental with no upfront
-              costs
-            </span>
+            <Badge name="" />
+            
+            
           </li>
-          <li className="space-y-4">
-            <Badge color="green" name="Exposure " />
-            <span className="block text-xl font-semibold">
-              Reach millions with car pooling
-            </span>
-            <span className="block mt-5 text-neutral-500 dark:text-neutral-400">
-              Millions of people are searching for unique places to stay around
-              the world
-            </span>
-          </li>
-          <li className="space-y-4">
-            <Badge color="red" name="Secure" />
-            <span className="block text-xl font-semibold">
-              Secure and simple
-            </span>
-            <span className="block mt-5 text-neutral-500 dark:text-neutral-400">
-              A Holiday Lettings listing gives you a secure and easy way to take
-              bookings and payments online
-            </span>
-          </li>
+   
+    
         </ul>
       </div>
     </div>
